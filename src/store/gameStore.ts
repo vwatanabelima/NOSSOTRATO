@@ -6,7 +6,7 @@ interface GameState {
     addXp: (amount: number) => void;
     addGold: (amount: number) => void;
     levelUp: () => void;
-    purchaseItem: (item: Item) => void;
+    purchaseItem: (item: Item, cost: number) => Promise<{ success: boolean; message: string }>;
 }
 
 export const useGameStore = create<GameState>((set) => ({
@@ -38,13 +38,20 @@ export const useGameStore = create<GameState>((set) => ({
     levelUp: () => set((state) => ({
         profile: { ...state.profile, level: state.profile.level + 1, maxXp: Math.floor(state.profile.maxXp * 1.5), currentXp: 0 }
     })),
-    purchaseItem: (item) => set((state) => {
-        if (state.profile.gold < 0) return state; // Check price in real logic
-        return {
+    purchaseItem: async (item, cost) => {
+        // This is a client-side only state update. 
+        // Real transaction happens in the component via RPC.
+        // We just update the local state to reflect the change immediately if needed.
+
+        // In a real app with store sync, we'd call the API here. 
+        // For now, we return success to satisfy the interface.
+        set((state) => ({
             profile: {
                 ...state.profile,
+                gold: state.profile.gold - cost,
                 inventory: [...state.profile.inventory, item]
             }
-        };
-    })
+        }));
+        return { success: true, message: 'Item purchased locally' };
+    }
 }));
