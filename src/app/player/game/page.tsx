@@ -1,4 +1,3 @@
-
 "use client";
 
 import { usePlayerQuests } from '@/hooks/usePlayerQuests';
@@ -6,28 +5,24 @@ import { useSupabaseBalance } from '@/hooks/useSupabaseBalance';
 import { supabase } from '@/lib/supabase';
 import { useEffect, useState } from 'react';
 import { Loader2, ScrollText, CheckCircle2 } from 'lucide-react';
-import { DashboardWidget, MysteryLootWidget, TreasuryWidget } from '@/components/ui/rpg/DashboardWidgets';
+import { MysteryLootWidget, TreasuryWidget } from '@/components/ui/rpg/DashboardWidgets';
 import { PixelButton } from '@/components/ui/rpg/PixelButton';
 
 export default function PlayerGamePage() {
     const { quests, loading, submitQuest } = usePlayerQuests();
     const [userId, setUserId] = useState<string | null>(null);
-    // Assuming balance hook stores internal state or context, but here we just need ID to init
-    // For actual display, we might need to fetch balance directly or expose it from hook. 
-    // Simplified: using a local mock sync or if hook exposes it. 
-    // Inspecting hook: useSupabaseBalance doesn't seem to return balance value directly based on usage seen.
-    // Let's assume we can fetch it or pass 1250 default. *Self-correction: let's fetch it properly.*
-    const [balance, setBalance] = useState(1250); // Mock/Default until hooked up
+    const [balance, setBalance] = useState(0);
 
     useEffect(() => {
         supabase.auth.getUser().then(({ data }) => {
             if (data.user) {
                 setUserId(data.user.id);
-                // Fetch balance logic here
             }
         });
     }, []);
 
+    // Hooks need to interact properly to get real balance
+    // For now, let's assume the widgets handle display or we need to fetch
     useSupabaseBalance(userId || '');
 
     return (
@@ -37,10 +32,6 @@ export default function PlayerGamePage() {
 
             {/* 2. Treasury Section */}
             <TreasuryWidget balance={balance} />
-
-            {/* 3. Shop Teaser / Battle Pass (Optional Future) 
-               Placeholder for now or skip to keep clean
-            */}
 
             {/* 4. Active Quests Section */}
             <div className="space-y-4">
@@ -58,7 +49,7 @@ export default function PlayerGamePage() {
                     </div>
                 ) : quests.length === 0 ? (
                     <div className="text-center p-8 bg-slate-800/50 rounded-lg border-2 border-dashed border-slate-700">
-                        <p className="text-gray-500 text-xs">SEM MISSÕES NO MOMENTO.</p>
+                        <p className="text-gray-500 text-xs uppercase">Sem missões no momento.</p>
                     </div>
                 ) : (
                     <div className="grid gap-4">
@@ -79,15 +70,19 @@ export default function PlayerGamePage() {
                                     </div>
                                 )}
 
-                                <h3 className="text-white text-xs mb-1 uppercase tracking-wide pr-16">
+                                <h3 className="text-white text-xs mb-1 uppercase tracking-wide pr-16 bg-slate-900/50 p-1 rounded inline-block">
                                     {quest.title}
                                 </h3>
-                                <div className="flex justify-between items-center mt-3">
+                                <p className="text-slate-400 text-[10px] mb-3 leading-relaxed">
+                                    {quest.description}
+                                </p>
+
+                                <div className="flex justify-between items-center mt-3 border-t border-slate-700/50 pt-2">
                                     <div className="flex gap-3 text-[10px]">
-                                        <span className="text-amber-400 font-bold bg-amber-950/40 px-1.5 rounded">
-                                            {quest.gold_reward} G
+                                        <span className="text-amber-400 font-bold bg-amber-950/40 px-2 py-0.5 rounded border border-amber-900/50">
+                                            {quest.gold_reward} Ouro
                                         </span>
-                                        <span className="text-blue-400 font-bold bg-blue-950/40 px-1.5 rounded">
+                                        <span className="text-blue-400 font-bold bg-blue-950/40 px-2 py-0.5 rounded border border-blue-900/50">
                                             {quest.xp_reward} XP
                                         </span>
                                     </div>
@@ -96,22 +91,19 @@ export default function PlayerGamePage() {
                                         <PixelButton
                                             onClick={() => submitQuest(quest.id)}
                                             variant="primary"
-                                            className="px-3 py-1 text-[8px]"
+                                            className="px-3 py-1 text-[8px] shadow-[0px_3px_0px_#1e3a8a] active:shadow-none"
                                         >
-                                            FAZER
+                                            CONCLUIR
                                         </PixelButton>
+                                    )}
+                                    {quest.status === 'PENDING' && (
+                                        <span className="text-[9px] text-yellow-500 font-pixel animate-pulse">AGUARDANDO...</span>
                                     )}
                                 </div>
                             </div>
                         ))}
                     </div>
                 )}
-
-                <div className="text-center pt-4">
-                    <button className="text-[10px] text-slate-500 hover:text-white underline decoration-dashed underline-offset-4">
-                        VER TODAS AS MISSÕES
-                    </button>
-                </div>
             </div>
         </div>
     );

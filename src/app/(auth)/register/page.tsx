@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -88,8 +87,8 @@ export default function RegisterPage() {
                     <button
                         onClick={() => setActiveTab('parent')}
                         className={`flex-1 flex items-center justify-center gap-2 py-2 text-sm font-medium rounded-md transition-all ${activeTab === 'parent'
-                                ? 'bg-white text-blue-600 shadow-sm'
-                                : 'text-slate-500 hover:text-slate-700'
+                            ? 'bg-white text-blue-600 shadow-sm'
+                            : 'text-slate-500 hover:text-slate-700'
                             }`}
                     >
                         <Users className="w-4 h-4" />
@@ -98,8 +97,8 @@ export default function RegisterPage() {
                     <button
                         onClick={() => setActiveTab('player')}
                         className={`flex-1 flex items-center justify-center gap-2 py-2 text-sm font-medium rounded-md transition-all ${activeTab === 'player'
-                                ? 'bg-white text-green-600 shadow-sm'
-                                : 'text-slate-500 hover:text-slate-700'
+                            ? 'bg-white text-green-600 shadow-sm'
+                            : 'text-slate-500 hover:text-slate-700'
                             }`}
                     >
                         <User className="w-4 h-4" />

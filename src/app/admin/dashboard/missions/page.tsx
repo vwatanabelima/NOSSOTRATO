@@ -57,7 +57,7 @@ export default function MissionsPage() {
                                     <Star className="w-3 h-3" /> {mission.xp_reward} XP
                                 </span>
                                 <span className="flex items-center gap-1 text-yellow-400 bg-yellow-900/20 px-2 py-1 rounded border border-yellow-900/50">
-                                    <Coins className="w-3 h-3" /> {mission.gold_reward} Gold
+                                    <Coins className="w-3 h-3" /> {mission.gold_reward} Ouro
                                 </span>
                             </div>
                         </div>

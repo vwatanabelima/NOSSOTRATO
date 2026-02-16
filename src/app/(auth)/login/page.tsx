@@ -1,4 +1,3 @@
-"use strict";
 "use client";
 
 import { useState } from "react";
@@ -26,7 +25,7 @@ export default function LoginPage() {
             });
 
             if (authError) {
-                toast.error("Login failed: " + authError.message);
+                toast.error("Erro no login: " + authError.message);
                 setLoading(false);
                 return;
             }
@@ -40,12 +39,12 @@ export default function LoginPage() {
                     .single();
 
                 if (profileError) {
-                    toast.error("Error fetching profile: " + profileError.message);
+                    toast.error("Erro ao carregar perfil: " + profileError.message);
                     setLoading(false);
                     return;
                 }
 
-                toast.success("Welcome back!");
+                toast.success("Bem-vindo de volta!");
 
                 if (profile?.role === 'ADMIN') {
                     router.refresh();
@@ -56,7 +55,7 @@ export default function LoginPage() {
                 }
             }
         } catch (err) {
-            toast.error("An unexpected error occurred.");
+            toast.error("Ocorreu um erro inesperado.");
             console.error(err);
         } finally {
             // setLoading(false); // Keep loading state during redirect
@@ -69,7 +68,7 @@ export default function LoginPage() {
                 <label className="block text-sm font-medium text-gray-700">Email</label>
                 <Input
                     type="email"
-                    placeholder="parent@example.com"
+                    placeholder="exemplo@email.com"
                     className="mt-1"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -77,9 +76,10 @@ export default function LoginPage() {
                 />
             </div>
             <div>
-                <label className="block text-sm font-medium text-gray-700">Password</label>
+                <label className="block text-sm font-medium text-gray-700">Senha</label>
                 <Input
                     type="password"
+                    placeholder="******"
                     className="mt-1"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -87,7 +87,7 @@ export default function LoginPage() {
                 />
             </div>
             <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? "Signing In..." : "Sign In"}
+                {loading ? "Entrando..." : "Entrar"}
             </Button>
 
             <div className="text-center text-sm text-gray-500 my-4">OU</div>
@@ -98,9 +98,6 @@ export default function LoginPage() {
                     <Link href="/register" className="text-blue-600 hover:underline font-bold">
                         Criar Nova Conta
                     </Link>
-                </p>
-                <p className="text-[10px] text-slate-400">
-                    Pais criam a família, filhos entram com código.
                 </p>
             </div>
         </form>
