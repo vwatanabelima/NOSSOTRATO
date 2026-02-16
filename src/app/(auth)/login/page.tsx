@@ -48,8 +48,10 @@ export default function LoginPage() {
                 toast.success("Welcome back!");
 
                 if (profile?.role === 'ADMIN') {
+                    router.refresh();
                     router.push('/admin/dashboard');
                 } else {
+                    router.refresh();
                     router.push('/player/game');
                 }
             }
