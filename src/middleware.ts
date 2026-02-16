@@ -58,15 +58,15 @@ export async function middleware(request: NextRequest) {
 
     // Route Protection Logic
     if (request.nextUrl.pathname.startsWith('/admin') && !user) {
-        return NextResponse.redirect(new URL('/auth/login', request.url))
+        return NextResponse.redirect(new URL('/login', request.url))
     }
 
     if (request.nextUrl.pathname.startsWith('/player') && !user) {
-        return NextResponse.redirect(new URL('/auth/login', request.url))
+        return NextResponse.redirect(new URL('/login', request.url))
     }
 
     // Redirect authenticated users away from Login page
-    if (request.nextUrl.pathname === '/auth/login' && user) {
+    if (request.nextUrl.pathname === '/login' && user) {
         // TODO: We should ideally redirect based on Role here, but we can't easily fetch user profile in Middleware
         // For now, let's redirect to a dashboard based on a heuristic or just /player/game as default
         // Or maybe /admin/dashboard if email is specific?
