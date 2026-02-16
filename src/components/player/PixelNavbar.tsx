@@ -6,15 +6,15 @@ export function PixelNavbar() {
             <div className="flex justify-around items-center p-2">
                 <a href="/player/game" className="flex flex-col items-center gap-1 text-yellow-400">
                     <Map className="w-6 h-6 stroke-2" />
-                    <span>QUESTS</span>
+                    <span>MISSÕES</span>
                 </a>
                 <a href="/player/game/inventory" className="flex flex-col items-center gap-1 text-gray-400 hover:text-white">
                     <Home className="w-6 h-6 stroke-2" />
-                    <span>ITEMS</span>
+                    <span>MOCHILA</span>
                 </a>
                 <a href="/player/game/shop" className="flex flex-col items-center gap-1 text-gray-400 hover:text-white">
                     <ShoppingBag className="w-6 h-6 stroke-2" />
-                    <span>SHOP</span>
+                    <span>LOJA</span>
                 </a>
                 <a href="/player/game/ranking" className="flex flex-col items-center gap-1 text-gray-400 hover:text-white">
                     <Trophy className="w-6 h-6 stroke-2" />

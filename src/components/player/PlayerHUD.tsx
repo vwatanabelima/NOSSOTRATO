@@ -4,10 +4,10 @@ export function PlayerHUD() {
             <div className="container mx-auto flex justify-between items-center">
                 <div className="flex items-center gap-2">
                     <div className="w-10 h-10 bg-yellow-400 border-2 border-white text-black flex items-center justify-center font-bold">
-                        LVL 1
+                        NVL 1
                     </div>
                     <div className="flex flex-col">
-                        <span className="text-yellow-400 uppercase">Hero</span>
+                        <span className="text-yellow-400 uppercase">Herói</span>
                         <div className="w-24 h-3 bg-slate-700 border border-white relative">
                             <div className="absolute top-0 left-0 h-full bg-blue-500" style={{ width: '45%' }}></div>
                         </div>
