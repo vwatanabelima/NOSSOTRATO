@@ -26,8 +26,6 @@ async function getStats() {
         .eq('is_active', true);
 
     // 2. Pending Approvals (Submissions)
-    // Submissions are linked to missions, which are linked to family.
-    // We need to filter submissions where mission.family_id = our family_id
     const { count: pendingApprovals } = await supabase
         .from('submissions')
         .select('id, missions!inner(family_id)', { count: 'exact', head: true })
@@ -84,38 +82,37 @@ export default async function AdminDashboardPage() {
 
     return (
         <div className="space-y-6">
-            <h2 className="text-2xl font-bold">Control Center</h2>
 
             {/* Invite Code Card */}
-            <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-6 rounded-lg shadow-lg">
-                <div className="flex justify-between items-center">
+            <div className="bg-gradient-to-r from-blue-900 to-slate-900 border-2 border-blue-500 text-white p-6 rounded-lg shadow-[0px_0px_15px_rgba(59,130,246,0.3)] relative overflow-hidden">
+                <div className="relative z-10 flex justify-between items-center">
                     <div>
-                        <h3 className="text-blue-100 text-sm font-medium uppercase tracking-wider">Código de Convite da Família</h3>
-                        <p className="text-4xl font-mono font-bold mt-2 tracking-widest">{stats.inviteCode}</p>
-                        <p className="text-blue-200 text-xs mt-1">Compartilhe este código com seus filhos para eles entrarem na família.</p>
+                        <h3 className="text-blue-300 text-xs font-pixel uppercase tracking-wider mb-2">Código de Convite</h3>
+                        <p className="text-4xl font-pixel text-white tracking-widest drop-shadow-md">{stats.inviteCode}</p>
+                        <p className="text-slate-400 text-[10px] mt-2 font-pixel">Compartilhe com os jogadores para entrarem na guilda.</p>
                     </div>
-                    <div className="bg-white/20 p-3 rounded-full">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg>
+                    <div className="bg-blue-500/20 p-4 rounded-full border border-blue-500/50">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-400"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg>
                     </div>
                 </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-white p-6 rounded-lg shadow-sm border">
-                    <h3 className="text-gray-500 text-sm font-medium">Active Missions</h3>
-                    <p className="text-3xl font-bold mt-2">{stats.activeMissions || 0}</p>
+                <div className="bg-slate-900 p-6 rounded-lg border-2 border-slate-700 shadow-md">
+                    <h3 className="text-slate-400 text-xs font-pixel uppercase">Missões Ativas</h3>
+                    <p className="text-3xl font-pixel text-yellow-400 mt-2">{stats.activeMissions || 0}</p>
                 </div>
-                <div className="bg-white p-6 rounded-lg shadow-sm border">
-                    <h3 className="text-gray-500 text-sm font-medium">Pending Approvals</h3>
-                    <p className="text-3xl font-bold mt-2 text-yellow-600">{stats.pendingApprovals || 0}</p>
+                <div className="bg-slate-900 p-6 rounded-lg border-2 border-slate-700 shadow-md">
+                    <h3 className="text-slate-400 text-xs font-pixel uppercase">Aprovações Pendentes</h3>
+                    <p className="text-3xl font-pixel text-orange-400 mt-2">{stats.pendingApprovals || 0}</p>
                 </div>
-                <div className="bg-white p-6 rounded-lg shadow-sm border">
-                    <h3 className="text-gray-500 text-sm font-medium">Total Gold Issued</h3>
-                    <p className="text-3xl font-bold mt-2 text-green-600">{stats.totalGold}</p>
+                <div className="bg-slate-900 p-6 rounded-lg border-2 border-slate-700 shadow-md">
+                    <h3 className="text-slate-400 text-xs font-pixel uppercase">Ouro em Circulação</h3>
+                    <p className="text-3xl font-pixel text-green-400 mt-2">{stats.totalGold}</p>
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-6">
                 {/* @ts-ignore */}
                 <PendingSubmissionsList initialSubmissions={stats.formattedSubmissions} />
             </div>

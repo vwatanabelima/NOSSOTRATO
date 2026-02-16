@@ -1,12 +1,9 @@
-"use strict";
 "use client";
 
 import { useState } from 'react';
 import { supabase } from '@/lib/supabase';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from 'sonner';
-import { Check, X } from 'lucide-react';
+import { Check, X, ExternalLink, ScrollText } from 'lucide-react';
 
 interface Submission {
     id: string;
@@ -26,52 +23,70 @@ export function PendingSubmissionsList({ initialSubmissions }: { initialSubmissi
             .eq('id', id);
 
         if (error) {
-            toast.error('Failed to update submission: ' + error.message);
+            toast.error('Erro ao atualizar: ' + error.message);
         } else {
-            toast.success(`Submission ${status.toLowerCase()}!`);
+            const action = status === 'APPROVED' ? 'aprovada' : 'rejeitada';
+            toast.success(`Missão ${action}!`);
             setSubmissions(prev => prev.filter(s => s.id !== id));
         }
     };
 
     if (submissions.length === 0) {
         return (
-            <Card>
-                <CardHeader>
-                    <CardTitle>Pending Approvals</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <p className="text-gray-500 text-sm">No pending submissions to review.</p>
-                </CardContent>
-            </Card>
+            <div className="bg-slate-900 border-2 border-slate-700 rounded-lg p-8 text-center shadow-md">
+                <ScrollText className="w-12 h-12 text-slate-600 mx-auto mb-3" />
+                <h3 className="text-slate-400 text-sm font-pixel uppercase">Sem aprovações pendentes</h3>
+                <p className="text-slate-600 text-xs mt-1">Tudo limpo por aqui, Mestre.</p>
+            </div>
         );
     }
 
     return (
-        <Card>
-            <CardHeader>
-                <CardTitle>Pending Approvals ({submissions.length})</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
+        <div className="bg-slate-900 border-2 border-slate-700 rounded-lg overflow-hidden shadow-md">
+            <div className="bg-slate-800/50 p-4 border-b border-slate-700">
+                <h3 className="text-yellow-500 text-sm font-pixel uppercase flex items-center gap-2">
+                    <ScrollText className="w-4 h-4" />
+                    Aprovações Pendentes ({submissions.length})
+                </h3>
+            </div>
+
+            <div className="divide-y divide-slate-800">
                 {submissions.map((sub) => (
-                    <div key={sub.id} className="flex items-center justify-between border-b pb-4 last:border-0 last:pb-0">
+                    <div key={sub.id} className="p-4 flex items-center justify-between hover:bg-slate-800/30 transition-colors">
                         <div>
-                            <p className="font-medium text-sm">{sub.mission_title}</p>
-                            <p className="text-xs text-gray-400">by {sub.player_name}</p>
-                            <a href={sub.proof_url} target="_blank" rel="noreferrer" className="text-xs text-blue-500 hover:underline">
-                                View Proof
-                            </a>
+                            <p className="font-bold text-slate-200 text-sm">{sub.mission_title}</p>
+                            <p className="text-xs text-slate-400 mt-1">por <span className="text-purple-400">{sub.player_name}</span></p>
+                            {sub.proof_url && (
+                                <a
+                                    href={sub.proof_url}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="inline-flex items-center gap-1 text-[10px] text-blue-400 hover:text-blue-300 mt-2 border border-blue-900/50 bg-blue-900/20 px-2 py-1 rounded"
+                                >
+                                    <ExternalLink className="w-3 h-3" />
+                                    Ver Prova
+                                </a>
+                            )}
                         </div>
                         <div className="flex gap-2">
-                            <Button size="icon" variant="outline" className="h-8 w-8 text-green-600 hover:text-green-700 hover:bg-green-50" onClick={() => handleReview(sub.id, 'APPROVED')}>
-                                <Check className="h-4 w-4" />
-                            </Button>
-                            <Button size="icon" variant="outline" className="h-8 w-8 text-red-600 hover:text-red-700 hover:bg-red-50" onClick={() => handleReview(sub.id, 'REJECTED')}>
-                                <X className="h-4 w-4" />
-                            </Button>
+                            <button
+                                onClick={() => handleReview(sub.id, 'APPROVED')}
+                                className="w-8 h-8 flex items-center justify-center bg-green-900/30 text-green-500 border border-green-900 hover:bg-green-500 hover:text-white rounded transition-all"
+                                title="Aprovar"
+                            >
+                                <Check className="w-4 h-4" />
+                            </button>
+                            <button
+                                onClick={() => handleReview(sub.id, 'REJECTED')}
+                                className="w-8 h-8 flex items-center justify-center bg-red-900/30 text-red-500 border border-red-900 hover:bg-red-500 hover:text-white rounded transition-all"
+                                title="Rejeitar"
+                            >
+                                <X className="w-4 h-4" />
+                            </button>
                         </div>
                     </div>
                 ))}
-            </CardContent>
-        </Card>
+            </div>
+        </div>
     );
 }

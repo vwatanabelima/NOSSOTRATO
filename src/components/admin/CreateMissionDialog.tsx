@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,7 +12,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { useMissions } from '@/hooks/useMissions';
+import { Coins, Star, Plus } from 'lucide-react';
 
 interface CreateMissionDialogProps {
     onCreate: (title: string, desc: string, xp: number, gold: number) => Promise<void>;
@@ -43,42 +42,80 @@ export function CreateMissionDialog({ onCreate }: CreateMissionDialogProps) {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button className="font-bold">+ New Mission</Button>
+                <button className="bg-purple-600 hover:bg-purple-700 text-white font-pixel text-xs uppercase px-4 py-2 rounded shadow-[0px_4px_0px_#581c87] active:shadow-none active:translate-y-[4px] transition-all flex items-center gap-2">
+                    <Plus className="w-4 h-4" />
+                    Nova Missão
+                </button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[425px] bg-slate-900 border-2 border-slate-700 text-white">
                 <DialogHeader>
-                    <DialogTitle>Create New Mission</DialogTitle>
-                    <DialogDescription>
-                        Add a task for your players to complete.
+                    <DialogTitle className="font-pixel text-yellow-500 uppercase tracking-wide">Criar Nova Missão</DialogTitle>
+                    <DialogDescription className="text-slate-400">
+                        Defina o desafio para os seus jogadores.
                     </DialogDescription>
                 </DialogHeader>
                 <form onSubmit={handleSubmit} className="grid gap-4 py-4">
                     <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="title" className="text-right">
-                            Title
+                        <Label htmlFor="title" className="text-right text-slate-300 font-pixel text-xs">
+                            Título
                         </Label>
-                        <Input id="title" value={title} onChange={e => setTitle(e.target.value)} className="col-span-3" required />
+                        <Input
+                            id="title"
+                            value={title}
+                            onChange={e => setTitle(e.target.value)}
+                            className="col-span-3 bg-slate-800 border-slate-600 text-white focus-visible:ring-purple-500"
+                            required
+                            placeholder="Ex: Lavar a Louça"
+                        />
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="desc" className="text-right">
-                            Description
+                        <Label htmlFor="desc" className="text-right text-slate-300 font-pixel text-xs">
+                            Detalhes
                         </Label>
-                        <Textarea id="desc" value={desc} onChange={e => setDesc(e.target.value)} className="col-span-3" />
+                        <Textarea
+                            id="desc"
+                            value={desc}
+                            onChange={e => setDesc(e.target.value)}
+                            className="col-span-3 bg-slate-800 border-slate-600 text-white focus-visible:ring-purple-500"
+                            placeholder="Descreva o que precisa ser feito..."
+                        />
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="xp" className="text-right">
-                            XP Reward
+                        <Label htmlFor="xp" className="text-right text-blue-400 font-pixel text-xs flex items-center justify-end gap-1">
+                            <Star className="w-3 h-3" /> XP
                         </Label>
-                        <Input id="xp" type="number" value={xp} onChange={e => setXp(Number(e.target.value))} className="col-span-3" required min={1} />
+                        <Input
+                            id="xp"
+                            type="number"
+                            value={xp}
+                            onChange={e => setXp(Number(e.target.value))}
+                            className="col-span-3 bg-slate-800 border-slate-600 text-white focus-visible:ring-blue-500"
+                            required
+                            min={1}
+                        />
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="gold" className="text-right">
-                            Gold Reward
+                        <Label htmlFor="gold" className="text-right text-yellow-400 font-pixel text-xs flex items-center justify-end gap-1">
+                            <Coins className="w-3 h-3" /> Gold
                         </Label>
-                        <Input id="gold" type="number" value={gold} onChange={e => setGold(Number(e.target.value))} className="col-span-3" required min={1} />
+                        <Input
+                            id="gold"
+                            type="number"
+                            value={gold}
+                            onChange={e => setGold(Number(e.target.value))}
+                            className="col-span-3 bg-slate-800 border-slate-600 text-white focus-visible:ring-yellow-500"
+                            required
+                            min={1}
+                        />
                     </div>
                     <DialogFooter>
-                        <Button type="submit" disabled={loading}>{loading ? 'Creating...' : 'Create Mission'}</Button>
+                        <Button
+                            type="submit"
+                            disabled={loading}
+                            className="bg-green-600 hover:bg-green-700 text-white font-pixel uppercase text-xs w-full shadow-[0px_4px_0px_#15803d] active:shadow-none active:translate-y-[4px] transition-all"
+                        >
+                            {loading ? 'Criando...' : 'Confirmar Missão'}
+                        </Button>
                     </DialogFooter>
                 </form>
             </DialogContent>
