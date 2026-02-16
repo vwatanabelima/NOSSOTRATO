@@ -66,19 +66,26 @@ export function DashboardWidget({
 }
 
 // Sub-components for specific widgets
-export function MysteryLootWidget({ daysLeft = 4 }) {
+export function MysteryLootWidget({ daysLeft = 3 }) {
     return (
         <DashboardWidget title="Loot Misterioso" type="mystery" actionHref="#">
-            <div className="flex flex-col items-center justify-center py-4 gap-3 relative overflow-hidden">
+            <div className="flex flex-col items-center justify-center py-6 gap-4 relative overflow-hidden bg-slate-950/50 rounded-lg border-2 border-dashed border-purple-500/30">
                 {/* Background glow effect */}
-                <div className="absolute inset-0 bg-purple-500/10 blur-xl rounded-full"></div>
+                <div className="absolute inset-0 bg-purple-600/5 blur-xl rounded-full animate-pulse"></div>
 
-                <div className="text-6xl animate-bounce">🎁</div>
+                {/* 8-bit Chest Icon Representation (using text for now, could be an image or SVG) */}
+                <div className="relative group cursor-pointer hover:scale-110 transition-transform duration-300">
+                    <div className="text-7xl drop-shadow-[0_5px_5px_rgba(0,0,0,0.5)] filter contrast-125">
+                        📦
+                    </div>
+                    <Sparkles className="absolute -top-2 -right-4 text-yellow-400 w-6 h-6 animate-bounce" />
+                    <Sparkles className="absolute -bottom-2 -left-4 text-purple-400 w-4 h-4 animate-ping" />
+                </div>
 
-                <div className="bg-slate-950/80 px-4 py-2 rounded border border-purple-500/50 flex items-center gap-2">
-                    <Lock className="w-3 h-3 text-purple-400" />
-                    <span className="text-xs text-purple-200 font-pixel">
-                        ABRE EM: <span className="text-yellow-400">{daysLeft}D 12H</span>
+                <div className="bg-purple-950/80 px-4 py-2 rounded border border-purple-500 flex items-center gap-3 shadow-lg transform rotate-1">
+                    <Lock className="w-4 h-4 text-purple-300" />
+                    <span className="text-[10px] text-purple-100 font-pixel tracking-wider">
+                        ABRE EM: <span className="text-yellow-400 font-bold">{daysLeft}D 12H</span>
                     </span>
                 </div>
             </div>

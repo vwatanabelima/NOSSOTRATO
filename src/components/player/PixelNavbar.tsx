@@ -13,7 +13,7 @@ export function PixelNavbar() {
     const navItems = [
         { href: '/player/game', icon: Map, label: 'MISSÕES' }, // Left 1
         { href: '/player/game/inventory', icon: Backpack, label: 'MOCHILA' }, // Left 2
-        { href: '/player/game/dashboard', icon: Home, label: 'INÍCIO', isCenter: true }, // Center
+        { href: '/player/game', icon: Home, label: 'INÍCIO', isCenter: true }, // Center
         { href: '/player/game/shop', icon: ShoppingBag, label: 'LOJA' }, // Right 1
         { href: '/player/game/ranking', icon: Trophy, label: 'RANK' }, // Right 2
     ];
