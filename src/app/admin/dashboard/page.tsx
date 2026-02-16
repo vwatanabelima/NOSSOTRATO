@@ -66,7 +66,17 @@ async function getStats() {
         status: s.status
     })) || [];
 
-    return { activeMissions, pendingApprovals, totalGold, formattedSubmissions };
+    // 5. Get Family Invite Code
+    const { data: family } = await supabase
+        .from('families')
+        .select('invite_code')
+        .eq('id', familyId)
+        .single();
+
+    // @ts-ignore
+    const inviteCode = family?.invite_code || 'N/A';
+
+    return { activeMissions, pendingApprovals, totalGold, formattedSubmissions, inviteCode };
 }
 
 export default async function AdminDashboardPage() {
@@ -75,6 +85,20 @@ export default async function AdminDashboardPage() {
     return (
         <div className="space-y-6">
             <h2 className="text-2xl font-bold">Control Center</h2>
+
+            {/* Invite Code Card */}
+            <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-6 rounded-lg shadow-lg">
+                <div className="flex justify-between items-center">
+                    <div>
+                        <h3 className="text-blue-100 text-sm font-medium uppercase tracking-wider">Código de Convite da Família</h3>
+                        <p className="text-4xl font-mono font-bold mt-2 tracking-widest">{stats.inviteCode}</p>
+                        <p className="text-blue-200 text-xs mt-1">Compartilhe este código com seus filhos para eles entrarem na família.</p>
+                    </div>
+                    <div className="bg-white/20 p-3 rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg>
+                    </div>
+                </div>
+            </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="bg-white p-6 rounded-lg shadow-sm border">

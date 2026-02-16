@@ -90,11 +90,18 @@ export default function LoginPage() {
                 {loading ? "Signing In..." : "Sign In"}
             </Button>
 
-            <div className="text-center text-sm text-gray-500 my-4">OR</div>
+            <div className="text-center text-sm text-gray-500 my-4">OU</div>
 
-            {/* Fallback for testing without account */}
-            <div className="text-xs text-center text-gray-400">
-                Don't have an account? Ask your admin for an invite.
+            <div className="text-center space-y-2">
+                <p className="text-xs text-slate-500">
+                    Não tem uma conta?{' '}
+                    <Link href="/register" className="text-blue-600 hover:underline font-bold">
+                        Criar Nova Conta
+                    </Link>
+                </p>
+                <p className="text-[10px] text-slate-400">
+                    Pais criam a família, filhos entram com código.
+                </p>
             </div>
         </form>
     );
